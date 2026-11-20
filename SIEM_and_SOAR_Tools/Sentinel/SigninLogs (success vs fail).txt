@@ -1,0 +1,12 @@
+SigninLogs
+| where IPAddress == "35.189.247.14"
+| where TimeGenerated between (
+    datetime(2026-11-09T04:44:37Z)
+    ..
+    datetime(2026-11-16T04:44:37Z)
+)
+| summarize
+    TotalEvents=count(),
+    SuccessfulLogins=countif(ResultType == 0),
+    FailedLogins=countif(ResultType != 0)
+    by AppDisplayName

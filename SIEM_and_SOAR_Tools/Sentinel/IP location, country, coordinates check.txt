@@ -1,0 +1,20 @@
+SigninLogs
+| where IPAddress == "35.189.247.14"
+| extend loc = parse_json(LocationDetails)
+| extend dev = parse_json(DeviceDetail)
+| project
+    TimeGenerated,
+    UserPrincipalName,
+    Country = tostring(loc.countryOrRegion),
+    State = tostring(loc.state),
+    City = tostring(loc.city),
+    Latitude = todouble(loc.geoCoordinates.latitude),
+    Longitude = todouble(loc.geoCoordinates.longitude),
+    OS = tostring(dev.operatingSystem),
+    Browser = tostring(dev.browser),
+    UserAgent,
+    AppDisplayName,
+    ClientAppUsed,
+    ResultType,
+    ResultDescription
+| order by TimeGenerated asc
